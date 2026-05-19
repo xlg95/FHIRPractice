@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  fhir:
+    image: hapiproject/hapi:latest
+    ports:
+      - "8080:8080"
