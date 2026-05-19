@@ -22,3 +22,52 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+###############################################
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.*
+
+# Docker
+docker-data/
+postgres-data/
+
+# Java / Maven
+target/
+
+# Gradle
+.gradle/
+build/
+
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Temporary files
+tmp/
+temp/
+
+# Coverage / test artifacts
+coverage/
+htmlcov/
+
+# Mac/Linux
+*.swp
