@@ -19,3 +19,7 @@ class FHIRClient:
     def get_patient_by_id(self, person_id):
         response = requests.get(f"{self.base_url}/Patient/{person_id}")
         return response.json()
+    
+    def create_patient(self, patient_data):
+        response = requests.post(f"{self.base_url}/Patient", json=patient_data)
+        return response.json()
