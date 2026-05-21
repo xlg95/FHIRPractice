@@ -12,6 +12,10 @@ class FHIRClient:
         response = requests.get(f"{self.base_url}/metadata")
         return response.json()
     
-    def get_persondata(self):
-        response = requests.get(f"{self.base_url}/Person")
+    def get_patientdata(self):
+        response = requests.get(f"{self.base_url}/Patient")
+        return response.json()
+    
+    def get_patient_by_id(self, person_id):
+        response = requests.get(f"{self.base_url}/Patient/{person_id}")
         return response.json()
