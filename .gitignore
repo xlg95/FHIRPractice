@@ -40,6 +40,7 @@ Thumbs.db
 # Environment
 .env
 .env.*
+.conda
 
 # Docker
 docker-data/
@@ -71,3 +72,6 @@ htmlcov/
 
 # Mac/Linux
 *.swp
+
+# Pytest
+.pytest_cache/
