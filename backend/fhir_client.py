@@ -16,14 +16,14 @@ class FHIRClient:
         response = requests.get(f"{self.base_url}/Patient")
         return response.json()
     
-    def get_patient_by_id(self, person_id):
-        response = requests.get(f"{self.base_url}/Patient/{person_id}")
+    def get_patient_by_id(self, patient_id):
+        response = requests.get(f"{self.base_url}/Patient/{patient_id}")
         return response.json()
     
     def create_patient(self, patient_data):
         response = requests.post(f"{self.base_url}/Patient", json=patient_data)
         return response.json()
     
-    def update_patient(self, person_id, patient_data):
-        response = requests.put(f"{self.base_url}/Patient/{person_id}", json=patient_data)
+    def update_patient(self, patient_id, patient_data):
+        response = requests.put(f"{self.base_url}/Patient/{patient_id}", json=patient_data)
         return response.json()
