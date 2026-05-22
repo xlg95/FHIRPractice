@@ -1,8 +1,8 @@
 from fhir_client import FHIRClient, FHIR_BASE
-from resources.patient import create_patient_resource
+from resources.patient import Patient
 import json
-create_patient = False
-update_patient = True
+create_patient = True
+update_patient = False
 
 def update_patient_data(patient_id, entry, new_value):
     patient_data = fhir_client.get_patient_by_id(patient_id)
@@ -21,12 +21,12 @@ for patient in fhir_client.get_patientdata()["entry"]:
     print(f"{patient['resource']}")
 
 if create_patient:
-    patient_ressource = create_patient_resource(
-        first_name="Günther",
+    patient_ressource = Patient(
+        first_name="Susanne",
         last_name="Schmidt",
-        gender="male",
-        birth_date="1980-01-01"
-    )
+        gender="female",
+        birth_date="1981-05-21"
+    ).get_patient_resource()
 
     print(patient_ressource)
 
