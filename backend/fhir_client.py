@@ -9,23 +9,40 @@ class FHIRClient:
         self.base_url = base_url
 
     def get_metadata(self):
-        response = requests.get(f"{self.base_url}/metadata")
+        response = requests.get(f"{self.base_url}/metadata",
+                                headers={
+                                    "Accept": "application/fhir+json"
+                                })
         return response.json()
     
     def get_patientdata(self):
-        response = requests.get(f"{self.base_url}/Patient")
+        response = requests.get(f"{self.base_url}/Patient",
+                                headers={
+                                    "Accept": "application/fhir+json"
+                                })
         return response.json()
     
     def get_patient_by_id(self, patient_id):
-        response = requests.get(f"{self.base_url}/Patient/{patient_id}")
+        response = requests.get(f"{self.base_url}/Patient/{patient_id}",
+                                headers={
+                                    "Accept": "application/fhir+json"
+                                })
         return response.json()
     
     def create_patient(self, patient_data):
-        response = requests.post(f"{self.base_url}/Patient", json=patient_data)
+        response = requests.post(f"{self.base_url}/Patient", 
+                                 json=patient_data, 
+                                 headers={
+                                    "Content-Type": "application/fhir+json"
+                                })
         return response.json()
     
     def update_patient(self, patient_id, patient_data):
-        response = requests.put(f"{self.base_url}/Patient/{patient_id}", json=patient_data)
+        response = requests.put(f"{self.base_url}/Patient/{patient_id}", 
+                                json=patient_data,
+                                headers={
+                                    "Content-Type": "application/fhir+json"
+                                })
         return response.json()
     
     def delete_patient(self, patient_id):
@@ -33,5 +50,9 @@ class FHIRClient:
         return response.json
     
     def create_medication(self, medication_data):
-        response = requests.post(f"{self.base_url}/Medication", json=medication_data)
+        response = requests.post(f"{self.base_url}/Medication", 
+                                 json=medication_data,
+                                 headers={
+                                     "Content-Type": "application/fhir+json"
+                                 })
         return response.json()
