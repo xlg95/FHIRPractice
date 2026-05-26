@@ -5,7 +5,7 @@ import json
 
 import random
 
-print(random.randint(1,12))
+fhir_client = FHIRClient(FHIR_BASE)
 
 create_patient = False
 update_patient = False
@@ -21,7 +21,7 @@ def update_patient_data(patient_id, entry, new_value):
 print("FHIR Playground gestartet")
 
 if print_patient_data:
-    fhir_client = FHIRClient(FHIR_BASE)
+    
     fhir_persondata = fhir_client.get_patient_by_id(1000)
     print(fhir_persondata)
     print(fhir_client.get_patientdata())
