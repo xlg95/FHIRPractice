@@ -27,3 +27,11 @@ class FHIRClient:
     def update_patient(self, patient_id, patient_data):
         response = requests.put(f"{self.base_url}/Patient/{patient_id}", json=patient_data)
         return response.json()
+    
+    def delete_patient(self, patient_id):
+        response = requests.delete(f"{self.base_url}/Patient/{patient_id}")
+        return response.json
+    
+    def create_medication(self, medication_data):
+        response = requests.post(f"{self.base_url}/Medication", json=medication_data)
+        return response.json()
