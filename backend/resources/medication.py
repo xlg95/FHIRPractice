@@ -8,10 +8,11 @@ class Medication():
                  form_text: str,
                  ingredient_itemCodableConcept_coding: list[dict],
                  ingredient_itemCodableConcept_text: str,
-                 numerator_value: int,
+                 numerator_value: float,
                  numerator_unit: str,
-                 denominator_value: int,
+                 denominator_value: float,
                  denominator_unit: str,
+                 identifier: list, # NO MUST-SUPPORT BUT PROBABLY IMPORTANT FOR AVELIOS
                  profile: list[str] = ["https://www.medizininformatik-initiative.de/fhir/modul-medikation/StructureDefinition/Medication"]):
         self.profile = profile
         self.code_coding = code_coding
@@ -27,6 +28,7 @@ class Medication():
             raise ValueError("The numerator Unit must be valid UCUM")
         self.denominator_value = denominator_value
         self.denominator_unit = denominator_unit
+        self.identifier = identifier
 
     def get_medication_resource(self):
         # code 
@@ -80,5 +82,7 @@ class Medication():
                         }
                     }
                 }
-            ]
+            ],
+
+            "identifier": self.identifier # PROBABLY IMPORTANT FOR AVELIOS
         }
