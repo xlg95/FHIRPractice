@@ -1,0 +1,11 @@
+Du kannst dir dazu einmal die KDS Modul Medikation anschauen: 
+https://www.medizininformatik-initiative.de/Kerndatensatz/KDS_Medikation_2026/MIIIGModulMedikation-TechnischeImplementierung-FHIR-Profile.html. 
+Perspektivisch werden wir das Modul über verschiedene Wege befüllen: zunächst über Avelios (wird länger dauern) 
+und über den bundeseinheitlichen Medikationsplan.
+Für Avelios wäre es gut, wenn du aus dem KDS Modul herraus einmal eine Übersicht erstellen kannst, welche 
+Information wir aus dem System brauchen, um das Modul zu befüllen. 
+Die Liste können wir dann über die IT an Avelios weiterleiten und nach Exportmöglichkeiten fragen. 
+Josefa hat sowas schon mal für die anderen Basisimodule gemacht. Da kannst du sie also sicher fragen.
+Zum Bundeseinheitlichen Medikationsplan findest du sicher online was. Ich glaube, der Hellwig kann übers 
+SAP auch darauf zugreifen und kann dir vielleicht mal einen Beispielexport geben. Ansonsten müsste man da 
+auch einmal mit dem Reicherzer sprechen und klären, wie der Export aus dem SAP am besten funktionieren könnte.
