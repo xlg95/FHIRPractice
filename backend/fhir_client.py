@@ -56,3 +56,7 @@ class FHIRClient:
                                      "Content-Type": "application/fhir+json"
                                  })
         return response.json()
+    
+    def delete_medication(self, medication_id):
+        response = requests.delete(f"{self.base_url}/Medication/{medication_id}")
+        return response.json
