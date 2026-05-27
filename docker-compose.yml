@@ -5,3 +5,8 @@ services:
     image: hapiproject/hapi:latest
     ports:
       - "8080:8080"
+
+  blaze:
+    image: samply/blaze:latest
+    ports:
+      - "8081:8080"
