@@ -1,3 +1,5 @@
+from helpers.ucum import is_valid_ucum
+
 class Medication():
     def __init__(self,
                  code_coding: list[dict],
@@ -19,7 +21,10 @@ class Medication():
         self.ingredient_itemCodableConcept_coding = ingredient_itemCodableConcept_coding
         self.ingredient_itemCodableConcept_text = ingredient_itemCodableConcept_text
         self.numerator_value = numerator_value
-        self.numerator_unit = numerator_unit
+        if is_valid_ucum(numerator_unit):
+            self.numerator_unit = numerator_unit
+        else:
+            raise ValueError("The numerator Unit must be valid UCUM")
         self.denominator_value = denominator_value
         self.denominator_unit = denominator_unit
 
