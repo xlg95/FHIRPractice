@@ -1,11 +1,11 @@
 class Hl7Decoder:
-    def __init__(self, message):
+    def __init__(self, message, validate=True):
         self.message = message
-        self.__validateMessage()
+        if validate and self.__validateMessage():
+            print("Message validated")
         self.MSH = None
 
     def __validateMessage(self) -> bool:
-
         try:
             MSHSegment = next(segment for segment in self.message.split("\n") if segment.startswith("MSH"))
             MessageType = MSHSegment.split("|")[8]
@@ -16,20 +16,25 @@ class Hl7Decoder:
             raise Exception("Es wurde kein Messageheader gefunden! Bitte überprüfen Sie die HL7-Nachricht")
         if f"{MessageCode}_{TriggerEvent}" != "MDM_T02":
             print(f"!!!WARNUNG: Derzeit können nur HL7-Nachrichten vom Typ MDM_T02 validiert und korrekte Dekodierung garantiert werden. Ihre Nachricht ist vom Typ {MessageCode}_{TriggerEvent}. Bitte wenden Sie sich an den Entwickler Ihres Vertrauens! (lxg)")
+            return False
+        else:
+            neededFields = {"MSH": {"needed": [1],   "name": "Message Header"},
+                            "SFT": {"needed": [0,1], "name": "Software Information"},
+                            "EVN": {"needed": [1],   "name": "Event Information"},
+                            "PID": {"needed": [1],   "name": "Patient Information"},
+                            "PV1": {"needed": [0,1], "name": "Patient Visit"},
+                            "TXA": {"needed": [1],   "name": "Transcription Document Header"},
+                            "OBX": {"name": "Observation Result"}} # TODO: In config File auslagern!!!
+            for neededField, fieldData in neededFields.items():
+                if "needed" in fieldData:
+                    if (numberFieldSegments:= sum(1 for segment in self.message.split("\n") if segment.startswith(neededField))) not in fieldData["needed"]:
+                        raise Exception(f"Es wurden {numberFieldSegments} {fieldData["name"]} Segmente gefunden! Die erforderliche Anzahl ist: {fieldData}! Bitte überprüfen Sie die HL7-Nachricht")
+            
+            wrongSegments = [segment[:3] for segment in self.message.split("\n") if segment[:3] not in neededFields]
+            if wrongSegments:
+                raise Exception(f"Es wurde mindestens ein Feld gefunden, welches nicht in eine MDM_T02 HL7 Nachricht gehört! Falsche Felder: {wrongSegments}")
             return True
-        if sum(1 for segment in self.message.split("\n") if segment.startswith("MSH")) != 1:
-            raise Exception("Es wurden zu viele Messageheader gefunden! Bitte überprüfen Sie die HL7-Nachricht")
-        if (numberSoftwareInformation:= sum(1 for segment in self.message.split("\n") if segment.startswith("SFT"))) > 1:
-            raise Exception(f"Es wurden {numberSoftwareInformation} Software Information Segmente gefunden! Die erforderliche Anzahl ist: 0 bis 1! Bitte überprüfen Sie die HL7-Nachricht")
-        if (numberEventInformation:= sum(1 for segment in self.message.split("\n") if segment.startswith("EVN"))) != 1:
-            raise Exception(f"Es wurden {numberEventInformation} Event Information Segmente gefunden! Die erforderliche Anzahl ist: 1! Bitte überprüfen Sie die HL7-Nachricht")
-        if (numberPatientInformation:= sum(1 for segment in self.message.split("\n") if segment.startswith("PID"))) != 1:
-            raise Exception(f"Es wurden {numberPatientInformation} Patient Information Segmente gefunden! Die erforderliche Anzahl ist: 1! Bitte überprüfen Sie die HL7-Nachricht")
-        if (numberPatientVisit:= sum(1 for segment in self.message.split("\n") if segment.startswith("PV1"))) > 1:
-            raise Exception(f"Es wurden {numberPatientVisit} Patient Visit Segmente gefunden! Die erforderliche Anzahl ist: 0 bis 1! Bitte überprüfen Sie die HL7-Nachricht")
-        if (numberTranscriptionDocumentHeader:= sum(1 for segment in self.message.split("\n") if segment.startswith("TXA"))) != 1:
-            raise Exception(f"Es wurden {numberTranscriptionDocumentHeader} Transcription Document Header Segmente gefunden! Die erforderliche Anzahl ist: 1! Bitte überprüfen Sie die HL7-Nachricht")
-
+                
     def decodeMessage(self):
         pass
 
