@@ -1,0 +1,38 @@
+{
+  "resourceType": "MedicationStatement",
+  "id": "example-atorvastatin",
+  "status": "active",
+  "medicationCodeableConcept": {
+    "coding": [
+      {
+        "system": "http://nih.gov",
+        "code": "830248",
+        "display": "atorvastatin 40 MG Oral Tablet"
+      }
+    ]
+  },
+  "subject": {
+    "reference": "Patient/example-patient"
+  },
+  "effectivePeriod": {
+    "start": "2026-01-15"
+  },
+  "informationSource": {
+    "reference": "Patient/example-patient"
+  },
+  "dosage": [
+    {
+      "text": "Take 1 tablet by mouth at bedtime",
+      "timing": {
+        "repeat": {
+          "frequency": 1,
+          "period": 1,
+          "periodUnit": "d",
+          "when": [
+            "HS"
+          ]
+        }
+      }
+    }
+  ]
+}

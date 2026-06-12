@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MP U="54E7D33C1AE210E1C12B9EAABD728DEA" l="de-DE" v="027">
+	<P b="19300101" egk="L91234567890" f="Mustermann" g="Test" s="M"/>
+	<A c="Regensburg" e="info@ukr.de" lanr="467510387" n="Universit\xc3\xa4tsklinikum Regensburg" p="0941 944-0" s="Franz-Josef-Strau\xc3\x9f-Allee 11" t="2026-05-28T16:05:35" z="93053"/>
+	<S>
+		<M du="1" p="524281" v="1"/>
+		<M du="1" m="1" p="4152557" v="1"/>
+		<M du="1" p="13819078" v="1"/>
+		<M du="1" m="1" p="7562586"/>
+		<M du="s" p="17378760" v="0,5"/>
+		<M d="1" du="4" m="1" p="7712867"/>
+		<M d="4" du="s" m="4" p="4661336"/>
+		<M du="1" m="1" p="12742480"/>
+		<M du="1" p="8860914" v="1"/>
+		<M du="6" m="1" p="4443361"/>
+		<M du="1" p="1162199" v="1"/>
+		<M d="1" du="1" m="1" p="1562579"/>
+		<M p="3140374"/>
+		<M du="1" m="1" p="1892408"/>
+	</S>
+</MP>

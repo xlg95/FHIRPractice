@@ -1,0 +1,58 @@
+{
+  "resourceType": "MedicationStatement",
+
+  "id": "54E7D33C1AE210E1C12B9EAABD728DEA-524281",
+
+  "meta": {
+    "source": "urn:hl7v2:MDM_T02:139806533"
+  },
+
+  "identifier": [
+    {
+      "system": "urn:bmp",
+      "value": "54E7D33C1AE210E1C12B9EAABD728DEA"
+    }
+  ],
+
+  "status": "active",
+
+  "medicationCodeableConcept": {
+    "coding": [
+      {
+        "system": "http://fhir.de/CodeSystem/ifa/pzn",
+        "code": "524281",
+        "display": "PZN 524281"
+      }
+    ],
+    "text": "PZN 524281"
+  },
+
+  "subject": {
+    "reference": "Patient/0002324869",
+    "display": "Test Mustermann"
+  },
+
+  "context": {
+    "reference": "Encounter/0006987651"
+  },
+
+  "effectiveDateTime": "2026-05-28T16:05:35+02:00",
+
+  "dateAsserted": "2026-05-28T16:05:35+02:00",
+
+  "informationSource": {
+    "display": "Universitätsklinikum Regensburg"
+  },
+
+  "derivedFrom": [
+    {
+      "display": "Bundesmedikationsplan Version 027"
+    }
+  ],
+
+  "dosage": [
+    {
+      "text": "1"
+    }
+  ]
+}
