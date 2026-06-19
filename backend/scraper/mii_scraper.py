@@ -127,7 +127,55 @@ class MIIScraper:
 
         print(f"{excel_row - 2} IDs gespeichert.")
 
+    def list_all_datatypes(self, only_constraints = False):
+        response = requests.get(self.url)
+        response.raise_for_status()
+
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        panel = soup.select_one("div.treetable-left-panel")
+        if not panel:
+            raise Exception("Kein div mit Klasse 'treetable-left-panel' gefunden.")
+
+        table = panel.select_one("table.treetable")
+        if not table:
+            raise Exception(
+                "Keine Tabelle mit Klasse 'treetable' innerhalb von '.treetable-left-panel' gefunden."
+            )
+        
+        #print(table)
+
+        datatype_list = []
+
+        for row in table.select(f"tr{'.constraints' if only_constraints else ''}"):
+            row_id = row.get("id")
+
+            # Alle td der Zeile holen
+            tds = row.find_all("td")
+
+            if len(tds) >= 4:
+                # Viertes td (Index 3)
+                datatype = tds[3].get_text(strip=True).split("(")[0]
+            
+            #print(f"{row_id} : {datatype} ")
+
+            if datatype not in datatype_list:
+                datatype_list.append(datatype)
+
+        #print(datatype_list)
+        #print(len(datatype_list))
+        return datatype_list
+
+
 miiScraper = MIIScraper(url = "https://www.medizininformatik-initiative.de/Kerndatensatz/KDS_Medikation_2026/MIIIGModulMedikation-TechnischeImplementierung-FHIR-Profile-MedicationStatement.html")
-miiScraper.create_excel()
+#miiScraper.create_excel()
+miiScraper.list_all_datatypes(only_constraints=False)
 
+def get_datatypes_only_not_constraints():
+    all_datatypes = miiScraper.list_all_datatypes()
+    constraints_datatypes = miiScraper.list_all_datatypes(only_constraints=True)
+    not_constraints_datatypes = [x for x in all_datatypes if x not in constraints_datatypes]
 
+    print(not_constraints_datatypes)
+
+get_datatypes_only_not_constraints()
