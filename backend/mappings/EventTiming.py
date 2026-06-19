@@ -13,7 +13,7 @@ EVENT_TIMING: dict[str, list[str, str, str]] = {
     "PHS": ["After Sleep", "Event occurs [offset] after subject goes to sleep. The exact time is unspecified and established by institution convention or patient interpretation.", ""],
 }
 
-BMP_KEY_TO_EVENT: dict[str, str]{
+BMP_KEY_TO_EVENT: dict[str, str] = {
     "m": "MORN",
     "d": "NOON",
     "v": "EVE"
