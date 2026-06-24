@@ -6,16 +6,12 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 from mappings.Dosiereinheit import DOSIEREINHEIT, BMP_TO_FHIR_QUANTITY_UNIT
 from mappings.EventTiming import EVENT_TIMING, BMP_KEY_TO_EVENT
-from dataclasses import dataclass
-from typing import Optional
 import json
 
 def is_valid_uuid(uuid: str) -> bool:
     try:
-        UUID(uuid)
-        return True
+        return bool(UUID(uuid))
     except (ValueError, TypeError) as error:
-        print(f"The UUID {uuid} is not valid! Error: {error}")
         return False
 
 def is_valid_pzn(pzn: str):
@@ -33,7 +29,6 @@ class FHIR_Builder_Medication_Statement:
 
     def build_fhir_resource_json(self):
         medicationplan_UUID, medicament_pzn_list = self.get_medicationplan_ids()
-        print(medicationplan_UUID, medicament_pzn_list)
         if not is_valid_uuid(medicationplan_UUID):
             print(f"The UUID {medicationplan_UUID} is invalid.. please check")
 
@@ -89,8 +84,7 @@ class FHIR_Builder_Medication_Statement:
 
             # dosage
             dosage_values = self.get_dosage_values_by_pzn(medicament_pzn)
-            print("dosage_values:", dosage_values)
-
+            
             dosage_unit_code = dosage_values.get("du")
             json_dict["dosage"] = list()
 
@@ -125,7 +119,7 @@ class FHIR_Builder_Medication_Statement:
             # append
             fhir_resource_list.append(json_dict)
         for i, fhir_resource in enumerate(fhir_resource_list):
-            print(f"{i:2d}: {fhir_resource}")
+            #print(f"{i:2d}: {fhir_resource}")
 
             with open(f'C:\\Users\\Alexander\\Documents\\TBD\\result_{i:03d}.json', 'w') as json_file:
                 json.dump(fhir_resource, json_file)
@@ -184,7 +178,8 @@ class FHIR_Builder_Medication_Statement:
         root = ET.fromstring(self.xml_decoded)
         a = root.find("A")
         dt = a.get("t")
-        return f"{dt}+{(1+is_german_summertime()):02d}:00"
+        return f"{dt}"
+        return f"{dt}+{(1+is_german_summertime()):02d}:00" # KÖNNTE GENUTZT WERDEN FALLS ZEITDATEN IM BMP UTC SIND (UNWAHRSCHEINLICH)
     
     def get_derived_from(self) -> str:
         if self.xml_decoded == None:
