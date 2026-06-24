@@ -87,39 +87,40 @@ class FHIR_Builder_Medication_Statement:
             #json_dict["informationSource"] = dict()
             #json_dict["informationSource"]["display"] = f"{self.get_informationSource_display()}"
 
+            # dosage
             dosage_values = self.get_dosage_values_by_pzn(medicament_pzn)
             print("dosage_values:", dosage_values)
 
             dosage_unit_code = dosage_values.get("du")
             json_dict["dosage"] = list()
 
+            when: dict[str, int|float] = dict()
             for key, value in dosage_values.items():
-                print("key", key, "value", value)
                 if key in BMP_KEY_TO_EVENT:
-                    dosage_entry = dict()
-                    when: str = BMP_KEY_TO_EVENT[key]
-                    text: str = f"{value} {DOSIEREINHEIT[dosage_unit_code]} {EVENT_TIMING[when][2]}"
-                    dosage_entry["text"] = text
-                    dosage_entry["timing"] = dict()
-                    dosage_entry["timing"]["repeat"] = dict()
-                    dosage_entry["timing"]["repeat"]["when"] = [f"{when}"]
-                    dosage_entry["doseAndRate"] = list()
-                    dose_and_rate_entry = dict()
-                    dose_and_rate_entry["doseQuantity"] = dict()
-                    dose_and_rate_entry["doseQuantity"]["value"] = numerical(value)
-                    dose_and_rate_entry["doseQuantity"]["unit"] = BMP_TO_FHIR_QUANTITY_UNIT[dosage_unit_code]["unit"]
-                    if BMP_TO_FHIR_QUANTITY_UNIT[dosage_unit_code]["system"]:
-                        dose_and_rate_entry["doseQuantity"]["system"] = BMP_TO_FHIR_QUANTITY_UNIT[dosage_unit_code]["system"]
-                    if BMP_TO_FHIR_QUANTITY_UNIT[dosage_unit_code]["code"]:
-                        dose_and_rate_entry["doseQuantity"]["code"] = BMP_TO_FHIR_QUANTITY_UNIT[dosage_unit_code]["code"]
-                    dosage_entry["doseAndRate"].append(dose_and_rate_entry)
-                    json_dict["dosage"].append(dosage_entry)
+                    when[BMP_KEY_TO_EVENT[key]] = numerical(value)
 
-
-            # dosage
-            #TODO ASK THE REICHERZER
-
-            # TODO: Check whether more is needed
+            when_inverted: dict[int|float, list[str]] = {}
+            for k, v in when.items():
+                when_inverted.setdefault(v, []).append(k)            
+            
+            for amount, event_keys in when_inverted.items():
+                dosage_entry = dict()
+                text: str = f"{amount} {DOSIEREINHEIT[dosage_unit_code]} {' und '.join(EVENT_TIMING[event_key][2] for event_key in event_keys)}"
+                dosage_entry["text"] = text
+                dosage_entry["timing"] = dict()
+                dosage_entry["timing"]["repeat"] = dict()
+                dosage_entry["timing"]["repeat"]["when"] = event_keys
+                dosage_entry["doseAndRate"] = list()
+                dose_and_rate_entry = dict()
+                dose_and_rate_entry["doseQuantity"] = dict()
+                dose_and_rate_entry["doseQuantity"]["value"] = amount
+                dose_and_rate_entry["doseQuantity"]["unit"] = BMP_TO_FHIR_QUANTITY_UNIT[dosage_unit_code]["unit"]
+                if BMP_TO_FHIR_QUANTITY_UNIT[dosage_unit_code]["system"]:
+                    dose_and_rate_entry["doseQuantity"]["system"] = BMP_TO_FHIR_QUANTITY_UNIT[dosage_unit_code]["system"]
+                if BMP_TO_FHIR_QUANTITY_UNIT[dosage_unit_code]["code"]:
+                    dose_and_rate_entry["doseQuantity"]["code"] = BMP_TO_FHIR_QUANTITY_UNIT[dosage_unit_code]["code"]
+                dosage_entry["doseAndRate"].append(dose_and_rate_entry)
+                json_dict["dosage"].append(dosage_entry)
             
             # append
             fhir_resource_list.append(json_dict)
