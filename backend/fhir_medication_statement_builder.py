@@ -44,7 +44,7 @@ class FHIR_Builder_Medication_Statement:
             json_dict = {"resourceType": f"{self.RESOURCE_NAME}"}
 
             # id
-            json_dict["id"] = f"{medicationplan_UUID}-{medicament_pzn}"
+            #json_dict["id"] = f"{medicationplan_UUID}-{medicament_pzn}"
 
             # meta.source
             hl7_version = f"hl7v{self.hl7_data.msh_segment.version_id}"
@@ -63,7 +63,7 @@ class FHIR_Builder_Medication_Statement:
             # medicationCodeableConcept
             json_dict["medicationCodeableConcept"] = dict()
             json_dict["medicationCodeableConcept"]["coding"] = list()
-            json_dict["medicationCodeableConcept"]["text"] = f"PZN {medicament_pzn}"
+            #json_dict["medicationCodeableConcept"]["text"] = f"PZN {medicament_pzn}"
             medicationCodableConcept_coding = {"system": "http://fhir.de/CodeSystem/ifa/pzn", "code": f"{medicament_pzn}", "display": f"PZN {medicament_pzn}"}
             json_dict["medicationCodeableConcept"]["coding"].append(medicationCodableConcept_coding)
 
@@ -74,14 +74,14 @@ class FHIR_Builder_Medication_Statement:
 
             # context
             json_dict["context"] = dict()
-            json_dict["context"]["reference"] = f"Encounter/{self.hl7_data.pv1_segment.visit_number}"
+            json_dict["context"]["reference"] = f"Encounter/{self.hl7_data.pv1_segment.visit_number}" #TODO: Check if we can do this
 
             # effectiveDateTime
             effectiveDateTime = self.get_effective_datetime()
             json_dict["effectiveDateTime"] = f"{effectiveDateTime}"  #TODO: CHECK
 
             # dateAsserted
-            json_dict["dateAsserted"] = f"{effectiveDateTime}"  #TODO: CHECK
+            #json_dict["dateAsserted"] = f"{effectiveDateTime}"  #TODO: CHECK
 
             # informationSource  # TODO: CHECK THIS.. HAS TO BE A REFERENCE AND NOT A STRING
             #json_dict["informationSource"] = dict()
